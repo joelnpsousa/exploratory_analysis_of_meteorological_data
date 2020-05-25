@@ -1,42 +1,10 @@
-# library(install.load)
-# install_load("shiny","shinythemes","dygraphs","shinyjs","shinycssloaders","plotly",
-#              "xts","lubridate")
-
-# if (!require("pacman")) install.packages("pacman"); library(pacman)
-# p_load(shiny, shinythemes, dygraphs, shinyjs, shinycssloaders,xts,dplyr,tidyverse,lubridate,ggplot2,DT,shinyWidgets,plotly,htmlwidgets,ggiraph,ggpubr,webshot)
-
-# convert arguments to vector
-requiredPackages <- c("shiny", "shinythemes", "dygraphs", "shinyjs", "shinycssloaders","xts",
-              "dplyr","tidyverse","lubridate","ggplot2","DT","shinyWidgets","plotly",
-              "htmlwidgets","ggiraph","ggpubr","webshot")
-
-# if (!require("shiny")) install.packages('shiny')
-#install.packages('shiny')
-#install.packages(c('devtools','curl'))
-#library(devtools)
-#install_github("rstudio/httpuv")
-#install.packages(c("sourcetools", "shiny"))
-
-# start loop to determine if each package is installed
-# for(package in requiredPackages){
-# 
-#   # if package is installed locally, load
-#   if(package %in% rownames(installed.packages()))
-#     do.call('library', list(package))
-# 
-#   # if package is not installed locally, download, then load
-#   else {
-#     install.packages(package)
-#     do.call("library", list(package))
-#   }
+# requiredPackages <- c("shiny", "shinythemes", "dygraphs", "shinyjs", "shinycssloaders","xts",
+#                       "dplyr","tidyverse","lubridate","ggplot2","DT","shinyWidgets","plotly",
+#                       "htmlwidgets","ggiraph","ggpubr","webshot")
+# for(pkg in requiredPackages){
+#   library(pkg, character.only = TRUE)
 # }
 
-# RequiredPackages <- c("shiny","shinythemes","dygraphs","skeletor")
-# for (i in requiredPackages) { #Installs packages if not yet installed
-#   #if (!require(i, character.only = TRUE)) install.packages(i)
-#   if(! i%in% row.names(installed.packages())) install.packages(i)
-# }
-#lapply(requiredPackages, require, character.only = TRUE)
 library(shiny)
 library(shinythemes)
 library(dygraphs)
@@ -55,8 +23,8 @@ library("ggpubr")
 library(htmlwidgets)
 library(webshot)
 
-load("df.RData")
-load("df_transformed.RData")
+load("data/df.RData")
+load("data/df_transformed.RData")
 #source("pass.R")
 
 options(spinner.color="black")

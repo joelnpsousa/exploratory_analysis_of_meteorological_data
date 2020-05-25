@@ -1,0 +1,957 @@
+---
+title: "Pre-processing report"
+# header-includes:
+#   - \usepackage[T1]{fontenc}
+#   - \usepackage[utf8]{inputenc}
+#   - \usepackage[portuguese]{babel}
+output:
+  pdf_document:
+    toc: yes
+    toc_depth: '6'
+    number_sections: yes
+    keep_tex: true
+  html_document:
+    collapsed: no
+    highlight: tango
+    number_sections: yes
+    theme: united
+    toc: yes
+    toc_depth: 6
+    toc_float: yes
+  word_document:
+    toc: yes
+    toc_depth: '6'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(error = TRUE)
+load("original2.RData")       #load df
+load("pre2.RData")
+source("variables.R")  #load variables
+
+#library(kableExtra)
+```
+
+# Introduction
+In this report are present the missing values, values with format errors and suspicious values of the meteorological data recorded by the medical-surgical school of Porto during the nineteenth century.
+
+# Missing values or values with format errors
+```{r, echo=FALSE, comment=''}
+# for (i in 2:ncol(df)) {
+#   for (j in 1:nrow(df)) {
+#     if(i!=4){
+#       if(is.na(df[j,i])) print(paste("Data:",df$data[j],colnames(df[i])))}#colnames(df[i]) df[j,i]
+#   }
+# }
+```
+Sheet of December 1881 is without records.
+
+## Atmospheric pressure
+### Atmospheric pressure at 9h
+```{r, echo=FALSE, comment=''}
+vec2 <- c()
+vec1 <- integer(0)
+class(vec1) <- "Date"
+for (i in 1:length(df$pressao9h)){
+  if (is.na(df$pressao9h[i])){
+    vec2 <- c(vec2,pre$pressao9h[i])
+    vec1 <- c(vec1, df$data[i])
+    #cat(paste("Dia:",df$data[i],"\t","Valor:",pre$temp.12h.exp[i],"\n")) # date and value
+  }
+}
+tabela = data.frame(Day=vec1, Value=vec2)
+knitr::kable(tabela)
+```
+
+### Atmospheric pressure at 12h
+```{r, echo=FALSE, comment=''}
+vec2 <- c()
+vec1 <- integer(0)
+class(vec1) <- "Date"
+for (i in 1:length(df$pressao12h)){
+  if (is.na(df$pressao12h[i])){
+    vec2 <- c(vec2,pre$pressao12h[i])
+    vec1 <- c(vec1, df$data[i])
+    #cat(paste("Dia:",df$data[i],"\t","Valor:",pre$temp.12h.exp[i],"\n")) # date and value
+  }
+}
+tabela = data.frame(Day=vec1, Value=vec2)
+knitr::kable(tabela)
+```
+
+### Atmospheric pressure at 15h
+```{r, echo=FALSE, comment=''}
+vec2 <- c()
+vec1 <- integer(0)
+class(vec1) <- "Date"
+for (i in 1:length(df$pressao15h)){
+  if (is.na(df$pressao15h[i])){
+    vec2 <- c(vec2,pre$pressao15h[i])
+    vec1 <- c(vec1, df$data[i])
+    #cat(paste("Dia:",df$data[i],"\t","Valor:",pre$temp.15h.exp[i],"\n")) # date and value
+  }
+}
+tabela = data.frame(Day=vec1, Value=vec2)
+knitr::kable(tabela)
+```
+
+### Average atmospheric pressure
+```{r, echo=FALSE, comment=''}
+vec2 <- c()
+vec1 <- integer(0)
+class(vec1) <- "Date"
+for (i in 1:length(df$pressao.media)){
+  if (is.na(df$pressao.media[i])){
+    vec2 <- c(vec2,pre$pressao.media[i])
+    vec1 <- c(vec1, df$data[i])
+    #cat(paste("Dia:",df$data[i],"\t","Valor:",pre$temp.15h.exp[i],"\n")) # date and value
+  }
+}
+tabela = data.frame(Day=vec1, Value=vec2)
+knitr::kable(tabela)
+```
+
+<br>
+
+## Temperature
+### Temperature in the shade at 9h
+```{r, echo=FALSE, comment=''}
+vec2 <- c()
+#array1 <- seq(from=df[1,"data"], length.out= length(df$data), by = "day")
+vec1 <- integer(0)
+class(vec1) <- "Date"
+#lista <- list(array1,array2)
+for (i in 1:length(df$temp.9h.som)){
+  if (is.na(df$temp.9h.som[i])){
+    #cat(paste("Dia:",df$data[i],"\t","Valor:",pre$temp.9h.som[i],"\n")) # date and value
+    # if(i==1){
+      #array2 <- pre$temp.9h.som[i]
+      vec2 <- c(vec2,pre$temp.9h.som[i])
+      vec1 <- c(vec1, df$data[i])
+    # }
+    # else {
+    #   rbind(pre$temp.9h.som[i],array2)
+    #   append(array1, df$data[i])
+    # }
+  }
+}
+tabela = data.frame(Day=vec1, Value=vec2)
+knitr::kable(tabela)
+#pp <- knitr::kable(lixo, format = "latex")
+#kableExtra::kable_styling(pp, position = "center")
+```
+
+### Temperature in the sunlight at 12h
+```{r, echo=FALSE, comment=''}
+vec2 <- c()
+vec1 <- integer(0)
+class(vec1) <- "Date"
+for (i in 1:length(df$temp.12h.exp)){
+  if (is.na(df$temp.12h.exp[i])){
+    vec2 <- c(vec2,pre$temp.12h.exp[i])
+    vec1 <- c(vec1, df$data[i])
+    #cat(paste("Dia:",df$data[i],"\t","Valor:",pre$temp.12h.exp[i],"\n")) # date and value
+  }
+}
+tabela = data.frame(Day=vec1, Value=vec2)
+knitr::kable(tabela)
+```
+
+### Temperature in the shade at 12h
+```{r, echo=FALSE, comment=''}
+vec2 <- c()
+vec1 <- integer(0)
+class(vec1) <- "Date"
+for (i in 1:length(df$temp.12h.som)){
+  if (is.na(df$temp.12h.som[i])){
+    vec2 <- c(vec2,pre$temp.12h.som[i])
+    vec1 <- c(vec1, df$data[i])
+    #cat(paste("Dia:",df$data[i],"\t","Valor:",pre$temp.12h.exp[i],"\n")) # date and value
+  }
+}
+tabela = data.frame(Day=vec1, Value=vec2)
+knitr::kable(tabela)
+```
+
+### Temperature in the sunlight at 15h
+```{r, echo=FALSE, comment=''}
+vec2 <- c()
+vec1 <- integer(0)
+class(vec1) <- "Date"
+for (i in 1:length(df$temp.15h.exp)){
+  if (is.na(df$temp.15h.exp[i])){
+    vec2 <- c(vec2,pre$temp.15h.exp[i])
+    vec1 <- c(vec1, df$data[i])
+    #cat(paste("Dia:",df$data[i],"\t","Valor:",pre$temp.12h.exp[i],"\n")) # date and value
+  }
+}
+tabela = data.frame(Day=vec1, Value=vec2)
+knitr::kable(tabela)
+```
+
+### Temperature in the shade at 15h
+```{r, echo=FALSE, comment=''}
+vec2 <- c()
+vec1 <- integer(0)
+class(vec1) <- "Date"
+for (i in 1:length(df$temp.15h.som)){
+  if (is.na(df$temp.15h.som[i])){
+    vec2 <- c(vec2,pre$temp.15h.som[i])
+    vec1 <- c(vec1, df$data[i])
+    #cat(paste("Dia:",df$data[i],"\t","Valor:",pre$temp.12h.exp[i],"\n")) # date and value
+  }
+}
+tabela = data.frame(Day=vec1, Value=vec2)
+knitr::kable(tabela)
+```
+
+### Maximum temperature
+```{r, echo=FALSE, comment=''}
+vec2 <- c()
+vec1 <- integer(0)
+class(vec1) <- "Date"
+for (i in 1:length(df$temp.maxima)){
+  if (is.na(df$temp.maxima[i])){
+    vec2 <- c(vec2,pre$temp.maxima[i])
+    vec1 <- c(vec1, df$data[i])
+    #cat(paste("Dia:",df$data[i],"\t","Valor:",pre$temp.12h.exp[i],"\n")) # date and value
+  }
+}
+tabela = data.frame(Day=vec1, Value=vec2)
+knitr::kable(tabela)
+```
+
+### Minimum temperature
+```{r, echo=FALSE, comment=''}
+vec2 <- c()
+vec1 <- integer(0)
+class(vec1) <- "Date"
+for (i in 1:length(df$temp.minima)){
+  if (is.na(df$temp.minima[i])){
+    vec2 <- c(vec2,pre$temp.minima[i])
+    vec1 <- c(vec1, df$data[i])
+    #cat(paste("Dia:",df$data[i],"\t","Valor:",pre$temp.12h.exp[i],"\n")) # date and value
+  }
+}
+tabela = data.frame(Day=vec1, Value=vec2)
+knitr::kable(tabela)
+```
+
+### Average temperature
+```{r, echo=FALSE, comment=''}
+vec2 <- c()
+vec1 <- integer(0)
+class(vec1) <- "Date"
+for (i in 1:length(df$temp.media)){
+  if (is.na(df$temp.media[i])){
+    vec2 <- c(vec2,pre$temp.media[i])
+    vec1 <- c(vec1, df$data[i])
+    #cat(paste("Dia:",df$data[i],"\t","Valor:",pre$temp.12h.exp[i],"\n")) # date and value
+  }
+}
+tabela = data.frame(Day=vec1, Value=vec2)
+knitr::kable(tabela)
+```
+
+<br>
+
+## Vapor pressure
+### Vapor pressure at 9h
+```{r, echo=FALSE, comment=''}
+vec2 <- c()
+vec1 <- integer(0)
+class(vec1) <- "Date"
+for (i in 1:length(df$tensao9h)){
+  if (is.na(df$tensao9h[i])){
+    vec2 <- c(vec2,pre$tensao9h[i])
+    vec1 <- c(vec1, df$data[i])
+    #cat(paste("Dia:",df$data[i],"\t","Valor:",pre$temp.12h.exp[i],"\n")) # date and value
+  }
+}
+tabela = data.frame(Day=vec1, Value=vec2)
+knitr::kable(tabela)
+```
+
+### Vapor pressure at 12h
+```{r, echo=FALSE, comment=''}
+vec2 <- c()
+vec1 <- integer(0)
+class(vec1) <- "Date"
+for (i in 1:length(df$tensao12h)){
+  if (is.na(df$tensao12h[i])){
+    vec2 <- c(vec2,pre$tensao12h[i])
+    vec1 <- c(vec1, df$data[i])
+    #cat(paste("Dia:",df$data[i],"\t","Valor:",pre$temp.12h.exp[i],"\n")) # date and value
+  }
+}
+tabela = data.frame(Day=vec1, Value=vec2)
+knitr::kable(tabela)
+```
+
+<br>
+
+## Relative humidity
+### Relative humidity at 9h
+```{r, echo=FALSE, comment=''}
+vec2 <- c()
+vec1 <- integer(0)
+class(vec1) <- "Date"
+for (i in 1:length(df$humidade9h)){
+  if (is.na(df$humidade9h[i])){
+    vec2 <- c(vec2,pre$humidade9h[i])
+    vec1 <- c(vec1, df$data[i])
+    #cat(paste("Dia:",df$data[i],"\t","Valor:",pre$temp.12h.exp[i],"\n")) # date and value
+  }
+}
+tabela = data.frame(Day=vec1, Value=vec2)
+knitr::kable(tabela)
+```
+
+<br>
+
+## Precipitation
+```{r, echo=FALSE, comment=''}
+vec2 <- c()
+vec1 <- integer(0)
+class(vec1) <- "Date"
+for (i in 1:length(df$precipitacao)){
+  if (is.na(df$precipitacao[i])){
+    vec2 <- c(vec2,pre$precipitacao[i])
+    vec1 <- c(vec1, df$data[i])
+    #cat(paste("Dia:",df$data[i],"\t","Valor:",pre$temp.12h.exp[i],"\n")) # date and value
+  }
+}
+tabela = data.frame(Day=vec1, Value=vec2)
+knitr::kable(tabela)
+```
+
+<br>
+
+## Ozone
+```{r, echo=FALSE, comment=''}
+vec2 <- c()
+vec1 <- integer(0)
+class(vec1) <- "Date"
+for (i in 1:length(df$ozono)){
+  if (is.na(df$ozono[i])){
+    vec2 <- c(vec2,pre$ozono[i])
+    vec1 <- c(vec1, df$data[i])
+    #cat(paste("Dia:",df$data[i],"\t","Valor:",pre$temp.12h.exp[i],"\n")) # date and value
+  }
+}
+tabela = data.frame(Day=vec1, Value=vec2)
+knitr::kable(tabela)
+```
+
+<br>
+
+## Wind 
+Between December 1860 and December 1864 there are no records on wind speed.
+
+### Absolute wind speed
+```{r, echo=FALSE, comment=''}
+vec2 <- c()
+vec1 <- integer(0)
+class(vec1) <- "Date"
+for (i in 1493:length(df$velocidade.absoluta)){
+  if (is.na(df$velocidade.absoluta[i])){
+    vec2 <- c(vec2,pre$velocidade.absoluta[i])
+    vec1 <- c(vec1, df$data[i])
+    #cat(paste("Dia:",df$data[i],"\t","Valor:",pre$temp.12h.exp[i],"\n")) # date and value
+  }
+}
+tabela = data.frame(Day=vec1, Value=vec2)
+knitr::kable(tabela)
+```
+
+<br>
+
+### Wind hourly speed
+```{r, echo=FALSE, comment=''}
+vec2 <- c()
+vec1 <- integer(0)
+class(vec1) <- "Date"
+for (i in 1493:length(df$velocidade.horaria)){
+  if (is.na(df$velocidade.horaria[i])){
+    vec2 <- c(vec2,pre$velocidade.horaria[i])
+    vec1 <- c(vec1, df$data[i])
+    #cat(paste("Dia:",df$data[i],"\t","Valor:",pre$temp.12h.exp[i],"\n")) # date and value
+  }
+}
+tabela = data.frame(Day=vec1, Value=vec2)
+knitr::kable(tabela)
+```
+
+\pagebreak
+
+<br><br><br>
+
+#Suspicious values
+## Temperature
+### Maximum temperature
+```{r, echo = FALSE, comment=''}
+cat("Days with values less than", min_temp_max, "and greater than", max_temp_max)
+
+vec2 <- c()
+vec1 <- integer(0)
+class(vec1) <- "Date"
+for (i in 1:length(!is.na(df$temp.maxima))){
+  if (!is.na(df$temp.maxima[i])) {
+    if (df$temp.maxima[i] > max_temp_max | df$temp.maxima[i] < min_temp_max){
+      #cat(paste("Dia:", df$data[i],"\t", "Valor:", df$temp.maxima[i],"\n"))
+      vec2 <- c(vec2, df$temp.maxima[i])
+      vec1 <- c(vec1, df$data[i])
+    }
+  } # date and value
+}
+tabela = data.frame(Day=vec1, Value=vec2)
+knitr::kable(tabela)
+```
+
+### Minimum temperature
+```{r, echo = FALSE, comment=''}
+vec2 <- c()
+vec1 <- integer(0)
+class(vec1) <- "Date"
+cat("Days with values less than", min_temp_min, "and greater than", max_temp_min)
+for (i in 1:length(df$temp.minima)){
+  if(!is.na(df$temp.minima[i]))
+    if (df$temp.minima[i] > max_temp_min | df$temp.minima[i] < min_temp_min){
+      vec2 <- c(vec2, df$temp.minima[i])
+      vec1 <- c(vec1, df$data[i])
+      #cat(paste("Dia:",df$data[i],"\t", "Valor:", df$temp.minima[i], "\n")) # date and value
+    }
+}
+tabela = data.frame(Day=vec1, Value=vec2)
+knitr::kable(tabela)
+```
+
+### Average temperature
+```{r, echo = FALSE, comment=''}
+cat("Days with values less than", min_temp_med, "and greater than", max_temp_med)
+vec2 <- c()
+vec1 <- integer(0)
+class(vec1) <- "Date"
+for (i in 1:length(df$temp.media)){
+  if(!is.na(df$temp.media[i]))
+    if (df$temp.media[i] > max_temp_med | df$temp.media[i] < min_temp_med){
+      vec2 <- c(vec2, df$temp.media[i])
+      vec1 <- c(vec1, df$data[i])
+      #cat(paste("Dia:",df$data[i],"\t", "Valor:",df$temp.media[i],"\n")) # date and value
+    }
+}
+tabela = data.frame(Day=vec1, Value=vec2)
+knitr::kable(tabela)
+
+
+cat("Days when the average recorded temperature differs by more than",tolerancia_temp,"from the mean between maximum and minimum temp.")
+vec1 <- integer(0)
+class(vec1) <- "Date"
+vec2 <- c()
+vec3 <- c()
+vec4 <- c()
+vec5 <- c()
+
+df$temp.med.int=round(df[,'temp.media'],1)
+df$meant <- rowMeans(df[c('temp.minima', 'temp.maxima')], na.rm=TRUE)
+df[,'meant']=round(df[,'meant'],1)
+
+for (i in 1:length(df$temp.media)){
+  if (!is.na(df$temp.media[i]) & !is.na(df$temp.maxima[i]) & !is.na(df$temp.minima[i]) & !is.na(df$temp.med.int[i]) & !is.na(df$meant[i])) {
+    if ((df$temp.med.int[i] - df$meant[i])>tolerancia_temp){
+      vec5 <- c(vec5, df$meant[i])
+      vec4 <- c(vec4, df$temp.minima[i])
+      vec3 <- c(vec3, df$temp.maxima[i])
+      vec2 <- c(vec2, df$temp.med.int[i])
+      vec1 <- c(vec1, df$data[i])
+    }
+      #cat(paste("Dia:", df$data[i],"\t", "Valor:", sprintf('%.1f',df$temp.med.int[i]),"\t", "MÃÂ¡xima:", sprintf('%.1f',df$temp.maxima[i]),"\t", "MÃÂ?nima:", sprintf('%.1f',df$temp.minima[i]),"\t", "Valor suposto:", sprintf('%.1f',df$meant[i]),"\t","\n"))
+  } # date and value
+}
+
+tabela = data.frame(Day=vec1, Value=vec2, "Maximum"=vec3, "Minimum"=vec4, "Supposed value"=vec5)
+knitr::kable(tabela)
+#kable_styling(fixed_thead = T)
+# knitr::kable(tabela,"latex", booktabs = TRUE,longtable = TRUE) %>%
+#   kable_styling(latex_options = c("hold_position","repeat_header"))
+```
+
+### Maximum temperature <= Minimum temperature
+```{r, echo=FALSE, comment=''}
+cat("Days in which the maximum temperature is less than or equal to the minimum temperature.")
+vec1 <- integer(0)
+class(vec1) <- "Date"
+vec2 <- c()
+vec3 <- c()
+for (i in 1:length(df$temp.maxima)){
+  if(!is.na(df$temp.maxima[i]) & !is.na(df$temp.minima[i]))
+    if (df$temp.maxima[i]<=df$temp.minima[i]){
+      vec3 <- c(vec3, df$temp.minima[i])
+      vec2 <- c(vec2, df$temp.maxima[i])
+      vec1 <- c(vec1, df$data[i])
+      #cat(paste("Dia:",df$data[i],"\t","Temp.Máxima:",df$temp.maxima[i],"\t", "Temp.Mínima:", df$temp.minima[i], "\n")) # date and value
+    }
+}
+tabela = data.frame(Day=vec1, "Maximum"=vec2, "Minimum"=vec3)
+knitr::kable(tabela)
+```
+
+### Temperature in the sunlight at 9h 
+```{r, echo = FALSE, comment=''}
+cat("Days with values less than", min_temp_exp, "and greater than", max_temp_exp)
+vec1 <- integer(0)
+class(vec1) <- "Date"
+vec2 <- c()
+for (i in 1:length(df$temp.9h.exp)){
+  if(!is.na(df$temp.9h.exp[i]))
+    if (df$temp.9h.exp[i] > max_temp_exp | df$temp.9h.exp[i] < min_temp_exp){
+      vec2 <- c(vec2, df$temp.9h.exp[i])
+      vec1 <- c(vec1, df$data[i])
+      #cat(paste("Dia:",df$data[i], "\t","Valor:",df$temp.9h.exp[i],"\n")) # date and value
+    }
+}
+tabela = data.frame(Day=vec1, Value=vec2)
+knitr::kable(tabela)
+```
+
+### Temperature in the shade at 9h 
+```{r, echo = FALSE, comment=''}
+cat("Days with values less than", min_temp_som, "and greater than", max_temp_som)
+vec1 <- integer(0)
+class(vec1) <- "Date"
+vec2 <- c()
+for (i in 1:length(df$temp.9h.som)){
+  if(!is.na(df$temp.9h.som[i]))
+    if (df$temp.9h.som[i] > max_temp_som | df$temp.9h.som[i] < min_temp_som){
+      vec2 <- c(vec2, df$temp.9h.som[i])
+      vec1 <- c(vec1, df$data[i])
+      #cat(paste("Dia:",df$data[i],"\t", "Valor:",df$temp.9h.som[i],"\n")) # date and value
+    }
+}
+tabela = data.frame(Day=vec1, Value=vec2)
+knitr::kable(tabela)
+```
+
+### Temperature in the sunlight at 12h 
+```{r, echo = FALSE, comment=''}
+cat("Days with values less than", min_temp_exp, "and greater than", max_temp_exp)
+vec1 <- integer(0)
+class(vec1) <- "Date"
+vec2 <- c()
+for (i in 1:length(df$temp.12h.exp)){
+  if(!is.na(df$temp.12h.exp[i]))
+    if (df$temp.12h.exp[i] > max_temp_exp | df$temp.12h.exp[i] < min_temp_exp){
+      vec2 <- c(vec2, df$temp.12h.exp[i])
+      vec1 <- c(vec1, df$data[i])
+      #cat(paste("Dia:",df$data[i],"\t", "Valor:",df$temp.12h.exp[i],"\n")) # date and value
+    }
+}
+tabela = data.frame(Day=vec1, Value=vec2)
+knitr::kable(tabela)
+```
+
+### Temperature in the shade at 12h 
+```{r, echo = FALSE, comment=''}
+cat("Days with values less than", min_temp_som, "and greater than", max_temp_som)
+vec1 <- integer(0)
+class(vec1) <- "Date"
+vec2 <- c()
+for (i in 1:length(df$temp.12h.som)){
+  if(!is.na(df$temp.12h.som[i]))
+    if (df$temp.12h.som[i] > max_temp_som | df$temp.12h.som[i] < min_temp_som){
+      vec2 <- c(vec2, df$temp.12h.som[i])
+      vec1 <- c(vec1, df$data[i])
+      #cat(paste("Dia:",df$data[i],"\t", "Valor:",df$temp.12h.som[i],"\n")) # date and value
+    }
+}
+tabela = data.frame(Day=vec1, Value=vec2)
+knitr::kable(tabela)
+```
+
+### Temperature in the sunlight at 15h 
+```{r, echo = FALSE, comment=''}
+cat("Days with values less than", min_temp_exp, "and greater than", max_temp_exp)
+vec1 <- integer(0)
+class(vec1) <- "Date"
+vec2 <- c()
+for (i in 1:length(df$temp.15h.exp)){
+  if(!is.na(df$temp.15h.exp[i]))
+    if (df$temp.15h.exp[i] > max_temp_exp | df$temp.15h.exp[i] < min_temp_exp){
+      vec2 <- c(vec2, df$temp.15h.exp[i])
+      vec1 <- c(vec1, df$data[i])
+      #cat(paste("Dia:",df$data[i],"\t", "Valor:",df$temp.15h.exp[i],"\n")) # date and value
+    }
+}
+tabela = data.frame(Day=vec1, Value=vec2)
+knitr::kable(tabela)
+```
+
+### Temperature in the shade at 15h 
+```{r, echo = FALSE, comment=''}
+cat("Days with values less than", min_temp_som, "and greater than", max_temp_som)
+vec1 <- integer(0)
+class(vec1) <- "Date"
+vec2 <- c()
+for (i in 1:length(df$temp.15h.som)){
+  if(!is.na(df$temp.15h.som[i]))
+    if (df$temp.15h.som[i] > max_temp_som | df$temp.15h.som[i] < min_temp_som){
+      vec2 <- c(vec2, df$temp.15h.som[i])
+      vec1 <- c(vec1, df$data[i])
+      #cat(paste("Dia:",df$data[i],"\t", "Valor:",df$temp.15h.som[i],"\n")) # date and value
+    }
+}
+tabela = data.frame(Day=vec1, Value=vec2)
+knitr::kable(tabela)
+```
+
+<br>
+
+## Atmospheric pressure
+```{r, echo = FALSE, comment=''}
+cat("Days with values less than", min_pressao, "and greater than", max_pressao)
+```
+### Atmospheric pressure at 9h
+```{r, echo = FALSE, comment=''}
+vec1 <- integer(0)
+class(vec1) <- "Date"
+vec2 <- c()
+for (i in 1:length(!is.na(df$pressao9h))){
+  if (!is.na(df$pressao9h[i])) {
+    if (df$pressao9h[i] > max_pressao | df$pressao9h[i] < min_pressao){
+      vec2 <- c(vec2, df$pressao9h[i])
+      vec1 <- c(vec1, df$data[i])
+      #cat(paste("Dia:", df$data[i],"\t", "Valor:", df$pressao9h[i], "\n"))
+    }
+  } # date and value
+}
+tabela = data.frame(Day=vec1, Value=vec2)
+knitr::kable(tabela)
+```
+
+### Atmospheric pressure at 12h
+```{r, echo = FALSE, comment=''}
+vec1 <- integer(0)
+class(vec1) <- "Date"
+vec2 <- c()
+for (i in 1:length(df$pressao12h)){
+  if (!is.na(df$pressao12h[i])) {
+    if (df$pressao12h[i] > max_pressao | df$pressao12h[i] < min_pressao){
+      vec2 <- c(vec2, df$pressao12h[i])
+      vec1 <- c(vec1, df$data[i])
+      #cat(paste("Dia:", df$data[i],"\t", "Valor:", df$pressao12h[i], "\n"))
+    }
+  } # date and value
+}
+tabela = data.frame(Day=vec1, Value=vec2)
+knitr::kable(tabela)
+```
+
+### Atmospheric pressure at 15h
+```{r, echo = FALSE, comment=''}
+vec1 <- integer(0)
+class(vec1) <- "Date"
+vec2 <- c()
+for (i in 1:length(df$pressao15h)){
+  if (!is.na(df$pressao15h[i])) {
+    if (df$pressao15h[i] > max_pressao | df$pressao15h[i] < min_pressao){
+      vec2 <- c(vec2, df$pressao15h[i])
+      vec1 <- c(vec1, df$data[i])
+      #cat(paste("Dia:", df$data[i],"\t", "Valor:", df$pressao15h[i], "\n"))
+    }
+  } # date and value
+}
+tabela = data.frame(Day=vec1, Value=vec2)
+knitr::kable(tabela)
+```
+
+### Average atmospheric pressure
+```{r, echo = FALSE, comment=''}
+vec1 <- integer(0)
+class(vec1) <- "Date"
+vec2 <- c()
+for (i in 1:length(df$pressao.media)){
+  if (!is.na(df$pressao.media[i] )) {
+    if (df$pressao.media[i] > max_pressao | df$pressao.media[i] < min_pressao){
+      vec2 <- c(vec2, df$pressao.media[i])
+      vec1 <- c(vec1, df$data[i])
+      #cat(paste("Dia:", df$data[i],"\t", "Valor:", df$pressao.media[i], "\n"))
+    }
+  } # date and value
+}
+tabela = data.frame(Day=vec1, Value=vec2)
+knitr::kable(tabela)
+
+cat("Days that the average atmospheric pressure differs from averaging the values of 3 daily over",tolerancia_pressao)
+vec1 <- integer(0)
+class(vec1) <- "Date"
+vec2 <- c()
+vec3 <- c()
+df$pressao.med.int=round(df[,'pressao.media'],2)
+df$meanp <- rowMeans(df[c('pressao9h', 'pressao12h','pressao15h')], na.rm=TRUE)
+df[,'meanp']=round(df[,'meanp'],2)
+
+for (i in 1:length(df$pressao.media)){
+  if (!is.na(df$pressao.media[i]) & !is.na(df$meanp[i]) & !is.na(df$pressao.med.int[i]) & !is.na(df$pressao9h[i]) & !is.na(df$pressao12h[i]) & !is.na(df$pressao15h[i])) {
+    if ((df$pressao.med.int[i] - df$meanp[i])>tolerancia_pressao){
+      vec3 <- c(vec3, df$meanp[i])
+      vec2 <- c(vec2, df$pressao.med.int[i])
+      vec1 <- c(vec1, df$data[i])
+      #cat(paste("Dia:", df$data[i],"\t", "Valor:", df$pressao.med.int[i],"\t", "Valor suposto:", df$meanp[i], "\n"))
+    }
+  } # date and value
+}
+tabela = data.frame(Day=vec1, Value=vec2, "Suppose value"=vec3)
+knitr::kable(tabela)
+```
+
+<br>
+
+## Vapor pressure
+```{r, echo=FALSE, comment=''}
+cat("Days with values less than", min_tensao, "and greater than", max_tensao)
+```
+### Vapor pressure at 9h
+```{r, echo = FALSE, comment=''}
+vec1 <- integer(0)
+class(vec1) <- "Date"
+vec2 <- c()
+for (i in 1:length(df$tensao9h)){
+  if (!is.na(df$tensao9h[i])) {
+    if (df$tensao9h[i] > max_tensao | df$tensao9h[i] < min_tensao){
+      vec2 <- c(vec2, df$tensao9h[i])
+      vec1 <- c(vec1, df$data[i])
+      #cat(paste("Dia:", df$data[i],"\t", "Valor:", df$tensao9h[i], "\n"))
+    }
+  } # date and value
+}
+tabela = data.frame(Day=vec1, Value=vec2)
+knitr::kable(tabela)
+```
+
+### Vapor pressure at 12h
+```{r, echo = FALSE, comment=''}
+vec1 <- integer(0)
+class(vec1) <- "Date"
+vec2 <- c()
+for (i in 1:length(df$tensao12h)){
+  if (!is.na(df$tensao12h[i])) {
+    if (df$tensao12h[i] > max_tensao | df$tensao12h[i] < min_tensao){
+      vec2 <- c(vec2, df$tensao12h[i])
+      vec1 <- c(vec1, df$data[i])
+      #cat(paste("Dia:", df$data[i],"\t", "Valor:", df$tensao12h[i], "\n"))
+    }
+  } # date and value
+}
+tabela = data.frame(Day=vec1, Value=vec2)
+knitr::kable(tabela)
+```
+
+### Vapor pressure at 15h
+```{r, echo = FALSE, comment=''}
+vec1 <- integer(0)
+class(vec1) <- "Date"
+vec2 <- c()
+for (i in 1:length(df$tensao15h)){
+  if (!is.na(df$tensao15h[i])) {
+    if (df$tensao15h[i] > max_tensao | df$tensao15h[i] < min_tensao){
+      vec2 <- c(vec2, df$tensao15h[i])
+      vec1 <- c(vec1, df$data[i])
+      #cat(paste("Dia:", df$data[i],"\t", "Valor:", df$tensao15h[i], "\n"))
+    }
+  } # date and value
+}
+tabela = data.frame(Day=vec1, Value=vec2)
+knitr::kable(tabela)
+```
+
+<br>
+
+## Relative humidity
+```{r, echo=FALSE,comment=''}
+cat("Days with values less than", min_humidade, "and greater than", max_humidade)
+```
+### Relative humidity at 9h
+```{r, echo = FALSE, comment=''}
+vec1 <- integer(0)
+class(vec1) <- "Date"
+vec2 <- c()
+for (i in 1:length(df$humidade9h)){
+  if (!is.na(df$humidade9h[i])) {
+    if (df$humidade9h[i] > max_humidade | df$humidade9h[i] < min_humidade){
+      vec2 <- c(vec2, df$humidade9h[i])
+      vec1 <- c(vec1, df$data[i])
+      #cat(paste("Dia:", df$data[i],"\t", "Valor:", df$humidade9h[i], "\n"))
+    }
+  } # date and value
+}
+tabela = data.frame(Day=vec1, Value=vec2)
+knitr::kable(tabela)
+```
+
+### Relative humidity at 12h
+```{r, echo = FALSE, comment=''}
+vec1 <- integer(0)
+class(vec1) <- "Date"
+vec2 <- c()
+for (i in 1:length(df$humidade12h)){
+  if (!is.na(df$humidade12h[i])) {
+    if (df$humidade12h[i] > max_humidade | df$humidade12h[i] < min_humidade){
+      vec2 <- c(vec2, df$humidade12h[i])
+      vec1 <- c(vec1, df$data[i])
+      #cat(paste("Dia:", df$data[i],"\t", "Valor:", df$humidade12h[i], "\n"))
+    }
+  } # date and value
+}
+tabela = data.frame(Day=vec1, Value=vec2)
+knitr::kable(tabela)
+```
+
+### Relative humidity at 15h
+```{r, echo = FALSE, comment=''}
+vec1 <- integer(0)
+class(vec1) <- "Date"
+vec2 <- c()
+for (i in 1:length(df$humidade15h)){
+  if (!is.na(df$humidade15h[i])) {
+    if (df$humidade15h[i] > max_humidade | df$humidade15h[i] < min_humidade){
+      vec2 <- c(vec2, df$humidade15h[i])
+      vec1 <- c(vec1, df$data[i])
+      #cat(paste("Dia:", df$data[i],"\t", "Valor:", df$humidade15h[i], "\n"))
+    }
+  } # date and value
+}
+tabela = data.frame(Day=vec1, Value=vec2)
+knitr::kable(tabela)
+```
+
+<br>
+
+## Precipitation
+```{r, echo = FALSE, comment=''}
+cat("Days with values less than", min_precipitacao, "and greater than", max_precipitacao)
+for (i in 1:length(df$precipitacao)){
+  if (!is.na(df$precipitacao[i])) {
+    if (df$precipitacao[i] > max_precipitacao | df$precipitacao[i] < min_precipitacao){
+      vec2 <- c(vec2, df$precipitacao[i])
+      vec1 <- c(vec1, df$data[i])
+    }
+      #cat(paste("Dia:", df$data[i],"\t", "Valor:", df$precipitacao[i], "\n"))
+  } # date and value
+}
+tabela = data.frame(Day=vec1, Value=vec2)
+knitr::kable(tabela)
+```
+
+<br>
+
+## Ozone
+```{r, echo=FALSE, comment=''}
+cat("Days with values less than", min_ozono, "and greater than", max_ozono)
+vec1 <- integer(0)
+class(vec1) <- "Date"
+vec2 <- c()
+for (i in 1:length(df$ozono)){
+  if (!is.na(df$ozono[i])){
+    if (df$ozono[i] > max_ozono | df$ozono[i] < min_ozono){
+      vec2 <- c(vec2, df$ozono[i])
+      vec1 <- c(vec1, df$data[i])
+    }
+      #cat(paste("Dia:", df$data[i],"\t", "Valor:", df$ozono[i], "\n"))
+  }
+}
+tabela = data.frame(Day=vec1, Value=vec2)
+knitr::kable(tabela)
+```
+
+<br>
+
+## Wind speed
+### Absolute wind speed
+```{r, echo=FALSE, comment=''}
+cat("Days with values less than", min_wind.absolute, "and greater than", max_wind.absolute)
+vec1 <- integer(0)
+class(vec1) <- "Date"
+vec2 <- c()
+for (i in 1:length(df$velocidade.absoluta)){
+  if (!is.na(df$velocidade.absoluta[i])){
+    if (df$velocidade.absoluta[i] > max_wind.absolute | df$velocidade.absoluta[i] < min_wind.absolute){
+      vec2 <- c(vec2, df$velocidade.absoluta[i])
+      vec1 <- c(vec1, df$data[i])
+    }
+      #cat(paste("Dia:", df$data[i],"\t", "Valor:", df$ozono[i], "\n"))
+  }
+}
+tabela = data.frame(Day=vec1, Value=vec2)
+knitr::kable(tabela)
+```
+
+<br>
+
+### Hourly wind speed
+```{r, echo=FALSE, comment=''}
+cat("Days with values less than", min_wind.hour, "and greater than", max_wind.hour)
+vec1 <- integer(0)
+class(vec1) <- "Date"
+vec2 <- c()
+for (i in 1:length(df$velocidade.horaria)){
+  if (!is.na(df$velocidade.horaria[i])){
+    if (df$velocidade.horaria[i] > max_wind.hour | df$velocidade.horaria[i] < min_wind.hour){
+      vec2 <- c(vec2, df$velocidade.horaria[i])
+      vec1 <- c(vec1, df$data[i])
+    }
+      #cat(paste("Dia:", df$data[i],"\t", "Valor:", df$ozono[i], "\n"))
+  }
+}
+tabela = data.frame(Day=vec1, Value=vec2)
+knitr::kable(tabela)
+```
+
+### Absolute wind speed < Hourly wind speed
+```{r, echo=FALSE, comment=''}
+cat("Days in which the absolute wind speed is less than the hourly wind speed.")
+vec1 <- integer(0)
+class(vec1) <- "Date"
+vec2 <- c()
+vec3 <- c()
+for (i in 1:length(df$velocidade.horaria)){
+  if(!is.na(df$velocidade.absoluta[i]) & !is.na(df$velocidade.horaria[i]))
+    if (df$velocidade.absoluta[i] < df$velocidade.horaria[i]){
+      vec3 <- c(vec3, df$velocidade.absoluta[i])
+      vec2 <- c(vec2, df$velocidade.horaria[i])
+      vec1 <- c(vec1, df$data[i])
+      #cat(paste("Dia:",df$data[i],"\t","Temp.Máxima:",df$temp.maxima[i],"\t", "Temp.Mínima:", df$temp.minima[i], "\n")) # date and value
+    }
+}
+tabela = data.frame(Day=vec1, "Hourly"=vec2, "Absolute"=vec3)
+knitr::kable(tabela)
+```
+
+```{r, echo=FALSE}
+# p <- ggplot(df, aes(x=df$data)) +
+#   geom_line(aes(y = temp.maxima)) + 
+#   geom_line(aes(y = temp.media)) +
+#   geom_line(aes(y = temp.minima)) + 
+#   ylab("") + xlab("") + ggtitle("Temperaturas") +
+#   scale_x_date(date_labels = "%y", date_breaks="1 year") +
+#   coord_cartesian(ylim=c(1960,1999)) +
+#   labs(colour = "") +
+#   theme_bw()
+# p
+```
+```{r, echo=FALSE}
+#exc_25 <- exceedance(df, threshold = 25)
+#exc_25
+# exceedance<-t(apply(df[,-c(2,3,4)],1,function(x){x>=1}))
+# exceedance
+
+# library(dplyr)
+# library(stringr)
+# # get month and year columns in data
+# #trem <- mutate(df,
+#  #             year = str_extract(date, "\\d{4}"),
+#   #            month = str_extract(date, "\\d{2}$"))
+# 
+# # get the mean for each station for each month
+# mean_m <- group_by(df, month) %>%
+#   summarise(mean_m = mean(df$temp.maxima, na.rm = T))
+```
