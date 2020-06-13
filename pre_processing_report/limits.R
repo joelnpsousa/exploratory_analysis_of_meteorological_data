@@ -1,4 +1,4 @@
-#temperatura
+#air temperature
 max_temp_max = 41
 min_temp_max = 0
 
@@ -14,37 +14,35 @@ min_temp_som = -10
 max_temp_exp = 50
 min_temp_exp = 0
 
-#pressao atmosferica
+#atmospheric pressure
 max_pressao = 800
 min_pressao = 700
 
-#tensao de vapor
+#vapor pressure
 max_tensao = 35
 min_tensao = 1
 
-#humidade relativa
+#humidity
 max_humidade = 100
 min_humidade = 0 
 
-#precipitacao
+#precipitation
 max_precipitacao = 100
 min_precipitacao = 0
 
-#ozono
+#ozone
 max_ozono = 20
 min_ozono = 0
 
-#vento absoluto
+#absolute wind
 max_wind.absolute = 1000
-#tolerancia pressao media
 min_wind.absolute = 0
 
-#vento absoluto
+#hourly wind
 max_wind.hour = 40
-#tolerancia pressao media
 min_wind.hour = 0
 
-#tolerancia temperatura media
+#average air temperature tolerance
 tolerancia_temp = 0.2
-#tolerancia pressao media
+#average atmospheric pressure tolerance
 tolerancia_pressao = 1

@@ -19,13 +19,12 @@ library(plotly)
 library(shinyWidgets)
 library(shinyjs)
 library(ggiraph)
-library("ggpubr")
+library(ggpubr)
 library(htmlwidgets)
 library(webshot)
 
 load("data/df.RData")
 load("data/df_transformed.RData")
-#source("pass.R")
 
 options(spinner.color="black")
 
@@ -35,19 +34,6 @@ library(ggplot2); theme_set(theme_minimal() +
                                     plot.title = element_text(hjust = 0.5,color="black", size=17, face="bold")))
                                     #panel.background = element_rect(fill = "#FFDEB3")))
                                     #plot.background = element_rect(fill = "#434343ff")))
-
-demo_users <- list(
-  list(
-    username = "demo-appsilon",
-    password_sha256 = "A7574A42198B7D7EEE2C037703A0B95558F195457908D6975E681E2055FD5EB9",
-    roles = list("basic", "admin")
-  ),
-  list(
-    username = "john",
-    password_sha256 = "C2F77349B4D0CDE5A1E865195A9E395E1DF8829BE9D31707BD12F44CEB384A60",
-    roles = list("basic")
-  )
-)
 
 parChoices4 <-c("Air Temperature Minimum" = "tmin",
                 "Air Temperature Maximum" = "tmax",
@@ -167,3 +153,15 @@ appCSS <- "
   color: #FFFFFF;
 }
 "
+demo_users <- list(
+  list(
+    username = "demo-appsilon",
+    password_sha256 = "A7574A42198B7D7EEE2C037703A0B95558F195457908D6975E681E2055FD5EB9",
+    roles = list("basic", "admin")
+  ),
+  list(
+    username = "john",
+    password_sha256 = "C2F77349B4D0CDE5A1E865195A9E395E1DF8829BE9D31707BD12F44CEB384A60",
+    roles = list("basic")
+  )
+)

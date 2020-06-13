@@ -25,9 +25,9 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(error = TRUE)
-load("original2.RData")       #load df
-load("pre2.RData")
-source("variables.R")  #load variables
+load("data/original.RData")       #load df
+load("data/pre.RData")
+source("limits.R")  #load variables
 
 #library(kableExtra)
 ```

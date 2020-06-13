@@ -1,5 +1,3 @@
-#a$decade <- 10*as.integer(as.numeric(substring(as.character(a$data), 3, 4)) / 10)
-
 shinyServer(function(input, output) {
   source(file.path("server", "univariate_tab.R"),  local = TRUE)$value
   source(file.path("server", "multivariate_tab.R"),  local = TRUE)$value
@@ -25,52 +23,5 @@ shinyServer(function(input, output) {
       delay(2000, hide("message", anim = TRUE, animType = "fade"))
     }
   })
-  
-  # Logged = FALSE
-  # my_username <- "test"
-  # my_password <- "test"
-  # values <- reactiveValues(authenticated = FALSE)
-  # dataModal <- function(failed = FALSE) {
-  #   modalDialog(
-  #     textInput("username", "Username:"),
-  #     passwordInput("password", "Password:"),
-  #     footer = tagList(
-  #       # modalButton("Cancel"),
-  #       actionButton("ok", "OK")
-  #     )
-  #   )
-  # }
-  # 
-  # # Show modal when button is clicked.  
-  # # This `observe` is suspended only whith right user credential
-  # 
-  # obs1 <- observe({
-  #   showModal(dataModal())
-  # })
-  # 
-  # obs2 <- observe({
-  #   req(input$ok)
-  #   isolate({
-  #     Username <- input$username
-  #     Password <- input$password
-  #   })
-  #   Id.username <- which(my_username == Username)
-  #   Id.password <- which(my_password == Password)
-  #   if (length(Id.username) > 0 & length(Id.password) > 0) {
-  #     if (Id.username == Id.password) {
-  #       Logged <<- TRUE
-  #       values$authenticated <- TRUE
-  #       obs1$suspend()
-  #       removeModal()
-  #       
-  #     } else {
-  #       values$authenticated <- FALSE
-  #     }     
-  #   }
-  # })
-  # 
-  # output$dataInfo <- renderPrint({
-  #   if (values$authenticated) "OK!!!!!"
-  #   else "You are NOT authenticated"
-  # })
+
 })

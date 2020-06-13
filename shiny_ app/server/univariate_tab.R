@@ -164,20 +164,9 @@ statistics <- function(){
     dsrange<- subset(dataset, data >= as.Date(input$dat_wind[1]) & data <= as.Date(input$dat_wind[2]))
   else
     dsrange<- subset(dataset, data >= as.Date(input$dat[1]) & data <= as.Date(input$dat[2]))
-  #dsrange<- subset(dataset, data >= as.Date(input$dat[1]) & data <= as.Date(input$dat[2]))
   p <- ggplot(dsrange, aes_string(x = dsrange$data, y=parameterInput2())) +#parameterInput2()
-    #geom_point(aes(colour = temp.maxima >input$temp_in)) + #,shape = "."
-    #scale_colour_manual(name = paste('>',input$temp_in), values = setNames(c('red','green'),c(F, T)),guide=FALSE)+
     geom_point(color="#D8AE5A")+
-    #geom_count()+scale_size_area()+
-    #geom_quantile(quantiles = 10)+
-    #geom_smooth(size=1) +
-    #geom_hline(yintercept=input$temp_in, colour="red")+
-    #geom_text(data=data.frame(x=input$dat[1]+200,y=input$temp_in), aes(x, y), label="Reference Value", vjust=-1, colour="red")+
-    #geom_ribbon(aes(ymin=dsrange$d, ymax=dsrange$u))+
-    #scale_y_continuous(limits = c(0,40)) +
     scale_x_date(date_breaks = "year" , date_labels = "%Y")+
-    #ggtitle ("Maximum daily temperature") +
     xlab("Date") +
     theme_minimal()+
     theme(axis.text.x = element_text(angle=45,hjust = 1, vjust=1,size = 10),
@@ -251,15 +240,7 @@ statistics2 <- function(){
     else if(input$querlinha == FALSE && input$quersmooth == FALSE)
       statistics()
   }
-  # geom_point(aes(colour = temp.maxima)) +
-  # scale_colour_gradient2(low = "blue", mid = "green" , high = "red", midpoint = 20) + 
-  # geom_smooth(color = "red",size = 1) +
-  # scale_y_continuous(limits = c(5,40), breaks = seq(5,30,5)) +
-  
-  # geom_density() +
-  # scale_x_continuous(limits = c(5,30), breaks = seq(5,30,5)) +
-  # ggtitle ("Temperature distribution by season") +
-#}
+
 output$statistics_plot <- renderPlot({
   statistics2()
 })
@@ -286,9 +267,6 @@ output$statistics_table <- renderTable({
   dataset <- datasetInput2()
   dsrange<- subset(dataset, data >= as.Date(input$dat[1]) & data <= as.Date(input$dat[2]))
   par <- parameterInput2()
-  # h <-  dsrange %>%
-  #   select(data, par) %>%
-  #   filter(data >= input$dat[1] & data <= input$dat[2])
   
   valor5<- summarise(dsrange,sum(par > input$temp_in,na.rm = TRUE))
   newV5 <- as.vector(valor5[1,])
@@ -331,12 +309,6 @@ output$statistics_max <- renderTable({
   valor8<- summarise(h,max(temp.maxima,na.rm = TRUE)-min(temp.minima,na.rm = TRUE))
   newV8 <- as.vector(valor8[1,])
   
-  # media <- round(mean(h$temp.maxima,na.rm = TRUE),1)
-  # media = media+5
-  # count.heat.waves <- function(h, min_temp, min_days) {
-  #   sum(with(rle(h$temp.maxima > min_temp), values & lengths >= min_days))
-  # }
-  # newV6 <- count.heat.waves(h, media, 6)
   h$daymonth <- format(as.Date(h$data), "%m-%d")
   h$mean <- with(h, ave(temp.maxima, daymonth))
   h$diff <- with(h, temp.maxima - (mean+5))
@@ -377,12 +349,7 @@ output$statistics_min <- renderTable({
   newV7 <- as.vector(valor7[1,])
   valor8<- summarise(h,max(temp.maxima,na.rm = TRUE)-min(temp.minima,na.rm = TRUE))
   newV8 <- as.vector(valor8[1,])
-  # media <- round(mean(h$temp.minima,na.rm = TRUE),1)
-  # media = media-5
-  # count.cold.waves <- function(h, min_temp, min_days) {
-  #   sum(with(rle(h$temp.minima < min_temp), values & lengths >= min_days))
-  # }
-  # newV6 <- count.cold.waves(h, media, 6)
+
   h$daymonth <- format(as.Date(h$data), "%m-%d")
   h$mean <- with(h, ave(temp.minima, daymonth))
   h$diff <- with(h, temp.minima - (mean-5))
@@ -416,20 +383,9 @@ output$statistics_prec <- renderTable({
   newV2 <- as.vector(valor2[1,])
   valor3<- summarise(h,sum(precipitacao > 25,na.rm = TRUE))
   newV3 <- as.vector(valor3[1,])
-  # valor4<- summarise(h,sum(precipitacao > input$temp_in,na.rm = TRUE))
-  # newV4 <- as.vector(valor4[1,])
   rain<-(h$precipitacao)
   rain5 <- summarise(h,max(rollapply(rain,5,sum),na.rm = TRUE))
   rain5 <- as.vector(rain5[1,])
-  # dataset %>%
-  #   group_by(ID = data.table::rleid(precipitacao < 1)) %>%
-  #   mutate(dry_days = if_else(precipitacao < 1, row_number(), 0L))
-  # newV5 <- dataset$dry_days 
-  #rain<-(h$precipitacao)
-  #rain5<-zoo::rollapply(rain, #your main vector
-  #              5,    #The number of consecutive data points
-  #             max)  #The function you want to apply
-  #str(rain5)
   
   data.table::setDT(h)
   h[, dryday := +(precipitacao < 1)] [, hw.length := with(rle(dryday), rep(lengths,lengths))][dryday == 0, hw.length := 0]
@@ -454,22 +410,6 @@ output$statistics_prec <- renderTable({
 
 
 #### Statistics per year ####
-
-#dsanos$data <- format(dsanos$data, "%Y")
-#dsrange<- subset(ds, data >= as.Date(input$date[1]) & data <= as.Date(input$date[2]))
-#dsrange$year <- strftime(dsrange$data, format = "%y")
-
-# plot1 <- reactive({
-# p <- ggplot(maxmaxano, aes(x=maxmaxano$Ano,y=maxmaxano$Valor)) +
-#   #geom_line(aes(y = X13)) + 
-#   #geom_line(aes(y = X15, colour = "Mean")) +
-#   geom_col(position="stack",stat = "identity",show.legend = TRUE) + #position="dodge"
-#   geom_text(aes(label=Valor), position=position_dodge(width=0.9), vjust=-0.25)+
-#   ylab("") + xlab("") + ggtitle("Maior temperatura registada por ano") +
-#   #scale_x_date(date_labels = "%y", date_breaks="1 year") +
-#   #coord_cartesian(ylim=c(-10,140)) +
-#   labs(colour = "") +
-# p})
 
 avg_year <- function(){
   dataset <- datasetInput2()
@@ -507,25 +447,10 @@ avg_year <- function(){
                 "hourlyWindSpeed"=dsrange$velocidade.horaria
   )
 
-  #dsrange$data <- as.Date(dsrange$data, format="%y")
-  #str(dsrange)
   p <- ggplot(dsrange, aes(x=data, y= par)) + 
     stat_summary(fun.y="mean", geom="bar", color="black",fill="#D8AE5A")+
     stat_summary(aes(label=round(..y..,1)), fun.y=mean, geom="text", size=4,vjust = -0.5)+
-    #scale_x_date(date_breaks = "year" , date_labels = "%Y")+
-     #stat_summary_bin(aes(label=..y..),fun.y=sum,geom="text",color="white",data=subset(dataset, Value >1))
-    #scale_x_discrete("data")+
-    # medmaxano <- dsrange %>%
-    #   group_by(data) %>%
-    #   summarize(round(mean(temp.maxima, na.rm=TRUE),0)) %>%
-    #   setNames(c("Year", "Value")) %>% 
-    #   ungroup() 
-    # strptime(as.character(medmaxano$Year), "%Y")
-    # 
-    # p <- ggplot(medmaxano, aes(x=medmaxano$Year,y=medmaxano$Value)) +
-    # geom_col(position="stack",stat = "identity",show.legend = TRUE,fill="#D8AE5A") + #position="dodge"
-  #geom_text(aes(label=temp.maxima), position=position_dodge(width=0.9), vjust=-0.25)+
-  geom_smooth(se=FALSE)+
+    geom_smooth(se=FALSE)+
     labs(y=(names(xLabs[xLabs==input$par])), x=("Year"), title=(paste("Annual average",names(parChoices4[parChoices4==input$par]))),colour = "red") +
     theme(axis.text.x = element_text(vjust=5, size = 15),
           axis.title = element_text(color="black", size=17, face="bold"),
@@ -603,11 +528,6 @@ max_year <- function(){
   
   #stat_summary_bin(aes(label=..y..),fun.y=sum,geom="text",color="white",data=subset(dataset, Value >1))
 
-  # ggplot(dsrange, aes(x=data, y= par)) + 
-  #   stat_summary(fun.y=max, geom="bar", color="black",fill="#D8AE5A")+
-  #   stat_summary(aes(label=round(..y..,1)), fun.ymax=max, geom="text", size=4,vjust = -0.5)+
-  #   geom_smooth(se=FALSE)+
-  #   labs(y=("Value"), x=("Year"), title=(paste("Annual highest",names(parChoices4[parChoices4==input$par]))),colour = "red")
   if(input$par == "pressure9h"){
     p + coord_cartesian(ylim = c(700, 800))}#ylim(700, 1000)
   p
@@ -665,11 +585,7 @@ min_year <- function(){
                         "hourlyWindSpeed"= dsrange$velocidade.horaria)
   
   #ggplot(dsrange, aes(x=data, y= par)) + 
-  ggplot(dsrange %>% group_by(data) %>% summarise(value=min(par, na.rm=TRUE)), 
-         aes(data, value)) +
-    #stat_summary(fun.y="min", geom="bar", color="black",fill="#D8AE5A")+
-    #stat_summary(aes(label=round(..y..,1)), fun.y=min, geom="text", size=4,vjust = -0.5)+
-    #stat_summary_bin(aes(label=..y..),fun.y=sum,geom="text",color="white",data=subset(dataset, Value >1))
+  ggplot(dsrange %>% group_by(data) %>% summarise(value=min(par, na.rm=TRUE)), aes(data, value)) +
     geom_bar(stat ="identity",fill="#D8AE5A",outlier.colour = "#D8AE5A",color="black") +
     geom_smooth(se=FALSE)+
     geom_text(aes(label=value), position=position_dodge(width=0.9), vjust=-0.25)+
@@ -762,13 +678,7 @@ heatwaves <- function(){
   dsrange$daymonth <- format(as.Date(dsrange$data), "%m-%d")
   dsrange$data <- year(dsrange$data)
   dsrange<- subset(dsrange, data >= as.Date(input$date[1]) & data <= as.Date(input$date[2]))
-  
-  # media <- round(mean(dsrange$temp.maxima,na.rm = TRUE),1)
-  # media = media+5
-  # count.heat.waves <- function(dataset, min_temp, min_days) {
-  #   sum(with(rle(dsrange$temp.maxima > min_temp), values & lengths >= min_days))
-  # }
-  #newV6 <- count.heat.waves(dataset, media, 6)
+
 
   dsrange$mean <- with(dsrange, ave(temp.maxima, daymonth))
   dsrange$diff <- with(dsrange, temp.maxima - mean)
@@ -1062,8 +972,6 @@ hidrologico <- function(){
     theme(axis.text.x = element_text(angle=45,hjust = 1, vjust=1,size = 10),
           axis.title = element_text(color="black", size=13, face="bold"),
           plot.title = element_text(hjust = 0.5,color="black", size=17, face="bold"))
-  #geom_text(aes(label=Valor), position=position_dodge(width=0.9), vjust=-0.25)
-  #scale_x_date(date_labels = "%y",date_breaks = "1 year")
 }
 output$hidrologico <- renderPlot({
   hidrologico()
@@ -1381,10 +1289,6 @@ output$estatisticasano <- downloadHandler(
   # content is a function with argument file. content writes the plot to the device
   content = function(file) {
     pdf(file) # open the pdf device
-    # gridExtra::arrangeGrob(
-    #   print(maxano_plot()),
-    #   print(medmaxano_plot())
-    # )
     print(avg_year())
     print(max_year())
     print(min_year())
@@ -1509,16 +1413,6 @@ output$maximames <-renderPlotly({
                         "absoluteWindSpeed"= dsrange$velocidade.absoluta,
                         "hourlyWindSpeed"= dsrange$velocidade.horaria)
   
-  # ggplot(dsrange, aes(x=factor(data), y= par)) + 
-  #   stat_summary(fun.y="min", geom="bar", color="black",fill="#D8AE5A")+
-  #   stat_summary(aes(label=round(..y..,1)), fun.y=min, geom="text", size=4,vjust = -0.5)+
-  #   #stat_summary_bin(aes(label=..y..),fun.y=sum,geom="text",color="white",data=subset(dataset, Value >1))
-  #   geom_smooth(se=FALSE)+
-  #   labs(y=("Value"), x=("Year"), title=("Lowest annual registered minimum temperature per year"),colour = "red") +
-  #   theme_minimal()+
-  #   theme(axis.text.x = element_text(angle=45,hjust = 1, vjust=1,size = 10),
-  #         axis.title = element_text(color="#D8AE5A", size=13, face="bold"),
-  #         plot.title = element_text(hjust = 0.5,color="#D8AE5A", size=14, face="bold"))
   str(dsrange)
   Ref_Data2 <- dsrange %>%
     group_by(MonthN, Year, Month) %>%
@@ -1528,7 +1422,7 @@ output$maximames <-renderPlotly({
     # Convert the YearN column to factor
     mutate(Month = factor(Month, levels = unique(Month)),
            Year = as.factor(Year))
-  print(Ref_Data2)
+  #print(Ref_Data2)
   g <- ggplot(data = Ref_Data2,
               aes(x = Month , y = Value, group = Year, colour = Year)) +
     geom_line()+
@@ -1642,8 +1536,6 @@ output$maximames3 <-renderPlotly({
           plot.title = element_text(hjust = 0.5,color="black", size=17, face="bold"))
   ggplotly(p, tooltip = c("color"),dynamicTicks = TRUE)
 })
-
-
 
 
 
@@ -1822,13 +1714,6 @@ avg_season <- function(){
   ggplot(dsrange, aes(x=season, y= par)) +
     stat_summary(fun.y="mean", geom="bar", color="black",fill="#D8AE5A")+
     stat_summary(aes(label=round(..y..,1)), fun.y=mean, geom="text", size=8,vjust = 1.3)+
-    
-    # dsrange[,c(15:17,28)] %>% gather(key = group, value = value, -season) %>%
-    # ggplot(aes(x=season, y= value, fill=group)) +
-    #   stat_summary(fun.y="mean", geom="bar", color="black",position = position_dodge())+
-    #geom_text(aes(label=mean(value)), vjust=-0.3, size=3.5)+
-    #geom_text(aes(label=mean(value)), vjust=1.6, color="black",
-    #position = position_dodge(0.9), size=3.5)+
     geom_smooth(se=FALSE)+
     labs(y=(names(xLabs[xLabs==input$par])), x=("Season"), title=(paste("Seasonal average",names(parChoices4[parChoices4==input$par]))),colour = "red") +
     theme_minimal()+
@@ -1852,41 +1737,21 @@ output$decomposed <-renderPlot({
     dsrange<- subset(dataset, data >= as.Date(input$dat[1]) & data <= as.Date(input$dat[2]))
   #dsrange<- subset(dataset, data >= as.Date(input$dat[1]) & data <= as.Date(input$dat[2]))
   dsrange$ano <- as.numeric(format(as.Date(dsrange$data),"%Y"))
-  #axis.POSIXct(1, at=seq(daterange[1], daterange[2], by="month"), format="%b")
   par2 <- parameterInput2()
   z <- xts(par2,dsrange$data,frequency = 365)
-  #z5 <- xts.obj[paste(as.Date(input$dat[1]),as.Date(input$dat[2]),sep="::")]
   z1 <- na.locf(z)
   str(dsrange$data)
   str(input$dat[1])
   print(as.Date(input$dat[1],format = "%y-%m-%d"))
-  #z2 <- ts(as.numeric(z1),frequency = 365, start = c(as.Date(input$dat[1],format = "%y-%m-%d")))
   z2 <- ts(as.numeric(z1),frequency = 365, start = c(dsrange[1,"ano"]))
   print(z2)
-  #log_z2 <- log(z2)
-  #z2 <- filter(ds$data >= input$dat[1])
   plot(stl(z2,s.window = "periodic"), #labels=c("g","cs","fe","h"), 
        main=paste(names(xLabs[xLabs==input$par]),"decomposition"),cex.main=5, col = "#D8AE5A")
-       #range.bars=TRUE, col.range="red")
-  #seasonplot(ts.sa, 12, col=rainbow(12), year.labels=TRUE, main="Seasonal plot") # seasonal frequency set as 12 for monthly data.
 })
 
 
 
 #### Data table ####
-
-# dsa <- ds[,c("data","temp.maxima", "temp.minima", "temp.media", "precipitacao")]
-# #output$tabela <- DT::renderDataTable(DT::datatable({
-# output$tabela <- renderDataTable({
-#   #parameter <- parameterInput()
-#   #DT::datatable(ds[, input$show_vars, drop = FALSE])
-#   j <- ds %>% 
-#     select(data,temp.maxima,temp.minima,temp.media,precipitacao) %>% 
-#     filter(data >= input$dat[1] & data <= input$dat[2]) %>%
-#     mutate(data=as.Date(data))
-#   j
-#DT::datatable(iris, options = list(searching = FALSE)
-# })
 
 output$tabela <- DT::renderDataTable(server = FALSE,{#renderDT
   dataset <- datasetInput2()
@@ -1895,9 +1760,7 @@ output$tabela <- DT::renderDataTable(server = FALSE,{#renderDT
     select(data,par2) %>%
     filter(data >= input$dat[1] & data <= input$dat[2]) %>%
     mutate(data=as.Date(data))
-  
-  #value <- ifelse(input$regex == "yes", TRUE, FALSE)
-  # DT::datatable(ds, options = list(search = list(regex = TRUE)))
+
   j[,-1] <-round(j[,-1],2) 
   DT::datatable(j,
                 rownames = FALSE, extensions = c('Buttons','Scroller','FixedColumns'),
@@ -1928,19 +1791,3 @@ output$tabela <- DT::renderDataTable(server = FALSE,{#renderDT
                 )
   )
 })
-
-
-# pre_ano <- function(){
-#   precano <- dsrange %>%
-#     group_by(data) %>%
-#     summarize(round(sum(precipitacao, na.rm=TRUE),0)) %>%
-#     setNames(c("Year", "Value")) %>% 
-#     ungroup() 
-#   p <- ggplot(precano, aes(x=precano$Year,y=precano$Value)) +
-#     geom_col(position="stack",stat = "identity",show.legend = TRUE,color="black",fill="#D8AE5A")+  #position="dodge"
-#     geom_text(aes(label=Value), position=position_dodge(width=0.9), vjust=-0.25)+
-#     geom_smooth(se=FALSE)+
-#     ylab("Total precipitation") + xlab("Year") + ggtitle("Total precipitation per year") +
-#     labs(colour = "")
-#   p
-# }

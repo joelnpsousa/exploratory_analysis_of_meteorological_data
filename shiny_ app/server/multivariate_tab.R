@@ -78,23 +78,6 @@ correlacoes <- function(){
                          "absoluteWindSpeed" = dsrange$velocidade.absoluta,
                          "hourlyWindSpeed"= dsrange$velocidade.horaria)
   
-  # colnames(j) = c('Date',
-  #                 'Atmospheric_Pressure_9h','Atmospheric_Pressure_12h','Atmospheric_Pressure_15h','Atmospheric_Pressure_Average',
-  #                 'Air_Temperature_Exposure_9h','Air_Temperature_Shade_9h','Air_Temperature_Exposure_12h',
-  #                 'Air_Temperature_Shade_12h','Air_Temperature_Exposure_15h','Air_Temperature_Shade_15h',
-  #                 'Air_Temperature_Maximum','Air_Temperature_Minimum','Air_Temperature_Average',
-  #                 'Vapor_Pressure_9h','Vapor_Pressure_12h','Vapor_Pressure_15h',
-  #                 'Humidity_9h','Humidity_12h','Humidity_15h',
-  #                 'Precipitation','Ozone','Wind_Direction_9h','Wind_Direction_12h','Wind_Direction_15h',
-  #                 "Wind_Speed_Absolute", "Wind_Speed_Hourly")
-  # library("GGally")
-  # a<- ggcorr(j, nbreaks = 5, palette = "RdYlBu", label=TRUE, hjust = 1, layout.exp=6)
-  # a
-  # cor_5 <- rcorr(as.matrix(changed[,c(2:22,26,27)]))
-  # M <- cor_5$r
-  # p_mat <- cor_5$P
-  # corrplot(M, type = "lower", order = "hclust", method = "number",
-  #          p.mat = p_mat, insig = "blank")
   
   ggscatter(dsrange, x = "par", y= "par2", color="#D8AE5A", shape=21, size = 3,
             add = "loess",  add.params = list(color = "blue", fill = "gray"),
@@ -159,10 +142,7 @@ correlacoes2 <- function(){
                          "ozone" = na.approx(dsrange$ozono),
                          "absoluteWindSpeed" = dsrange$velocidade.absoluta,
                          "hourlyWindSpeed"= dsrange$velocidade.horaria)
-  #filter(dataset, between(data ,input$daterangein[1], input$daterangein[2]))
-  #library("GGally")
-  #ggcorr(dsrange, geom = "text", nbreaks = 5, palette = "RdYlBu", hjust = 1)
-  #ggcorr(o, label=TRUE, hjust = 0.95,layout.exp = 5)
+
   ggscatter(dsrange, x = "par", y= "par2", color="#D8AE5A", shape=21, size = 3,
             add = "reg.line",  add.params = list(color = "blue", fill = "gray"),
             conf.int = TRUE,mean.point=TRUE,rug=TRUE,
@@ -255,22 +235,14 @@ output$decomposed2 <-renderPlot({
   dataset <- datasetInput()
   dsrange<- subset(dataset, data >= as.Date(input$daterangein[1]) & data <= as.Date(input$daterangein[2]))
   dsrange$ano <- as.numeric(format(as.Date(dsrange$data),"%Y"))
-  #axis.POSIXct(1, at=seq(daterange[1], daterange[2], by="month"), format="%b")
   par <- parameterInput22()
   par2 <- parameterInput33()
   z1 <- xts(par,dsrange$data,frequency = 365)
   z2 <- xts(par2,dsrange$data,frequency = 365)
-  #z5 <- xts.obj[paste(as.Date(input$dat[1]),as.Date(input$dat[2]),sep="::")]
   z11 <- na.locf(z1)
   z22 <- na.locf(z2)
-  #str(dsrange$data)
-  #str(input$dat[1])
-  #print(as.Date(input$daterangein[1],format = "%y-%m-%d"))
-  #z2 <- ts(as.numeric(z1),frequency = 365, start = c(as.Date(input$dat[1],format = "%y-%m-%d")))
   z111 <- ts(as.numeric(z11),frequency = 365, start = c(dsrange[1,"ano"]))
   z222 <- ts(as.numeric(z22),frequency = 365, start = c(dsrange[1,"ano"]))
-  #print(z111)
-  #z2 <- filter(ds$data >= input$dat[1])
   a <- stl(z111,s.window = "periodic")
   b <- stl(z222,s.window = "periodic")
   print(length(a))
@@ -278,6 +250,4 @@ output$decomposed2 <-renderPlot({
   ts.plot(z111,z222, 
        plot.type="single",#labels=c("g","cs","fe","h"), 
        main=paste(names(parChoices4[parChoices4==input$par]),"decomposition"))
-  #range.bars=TRUE, col.range="red")
-  #seasonplot(ts.sa, 12, col=rainbow(12), year.labels=TRUE, main="Seasonal plot") # seasonal frequency set as 12 for monthly data.
 })
