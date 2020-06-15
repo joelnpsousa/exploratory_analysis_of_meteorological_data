@@ -25,11 +25,11 @@ tabPanel("Visualizations",value = "tab4_val", icon=icon("bar-chart fa-2x"),
                      wellPanel(strong("Since: "),textOutput("from4", inline = TRUE),
                                strong("To: "), textOutput("to4", inline = TRUE),align = "center"),
                      dygraphOutput("visualizations")%>% withSpinner(),
-                     htmlOutput("help2"),align="center",
-                     conditionalPanel(
-                       condition = "input.ycol1=='Minimum.Air.Temperature'||input.ycol1 =='Maximum.Air.Temperature'||input.ycol1 =='Precipitation'",
-                     plotlyOutput("temp.prec")%>% withSpinner(),
-                     plotlyOutput("temp.prec2")%>% withSpinner())
+                     htmlOutput("help2"),align="center"#,
+                     # conditionalPanel(
+                     #   condition = "input.ycol1=='Minimum.Air.Temperature'||input.ycol1 =='Maximum.Air.Temperature'||input.ycol1 =='Precipitation'",
+                     # plotlyOutput("temp.prec")%>% withSpinner(),
+                     # plotlyOutput("temp.prec2")%>% withSpinner())
            )
          )
 )

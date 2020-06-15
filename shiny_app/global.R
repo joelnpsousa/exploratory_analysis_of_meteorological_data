@@ -1,23 +1,14 @@
-# requiredPackages <- c("shiny", "shinythemes", "dygraphs", "shinyjs", "shinycssloaders","xts",
-#                       "dplyr","tidyverse","lubridate","ggplot2","DT","shinyWidgets","plotly",
-#                       "htmlwidgets","ggiraph","ggpubr","webshot")
-# for(pkg in requiredPackages){
-#   library(pkg, character.only = TRUE)
-# }
-
 library(shiny)
 library(shinythemes)
+library(shinyjs)
+library(shinyWidgets)
+library(shinycssloaders)
+library(tidyverse)
 library(dygraphs)
 library(xts)
-library(dplyr)
-library(tidyverse)
-library(lubridate)
-library(ggplot2)
 library(DT)
 library(shinycssloaders)
 library(plotly)
-library(shinyWidgets)
-library(shinyjs)
 library(ggiraph)
 library(ggpubr)
 library(htmlwidgets)
@@ -32,8 +23,8 @@ library(ggplot2); theme_set(theme_minimal() +
                               theme(axis.text.x = element_text(vjust=3,size = 10),
                                     axis.title = element_text(color="black", size=13, face="bold"),
                                     plot.title = element_text(hjust = 0.5,color="black", size=17, face="bold")))
-                                    #panel.background = element_rect(fill = "#FFDEB3")))
-                                    #plot.background = element_rect(fill = "#434343ff")))
+#panel.background = element_rect(fill = "#FFDEB3")))
+#plot.background = element_rect(fill = "#434343ff")))
 
 parChoices4 <-c("Air Temperature Minimum" = "tmin",
                 "Air Temperature Maximum" = "tmax",
@@ -60,52 +51,52 @@ parChoices4 <-c("Air Temperature Minimum" = "tmin",
                 "Wind speed 15h" = "hourlyWindSpeed")
 
 parChoices2 <- c("Minimum Air Temperature" = "temp.minima",
-                "Maximum Air Temperature" = "temp.maxima",
-                "Average Air Temperature" = "temp.media",
-                "Shade Air Temperature at 9h" = "temp.9h.som",
-                "Shade Air Temperature at 12h" = "temp.12h.som",
-                "Shade Air Temperature at 15h" = "temp.15h.som",
-                "Exposure Air Temperature at 9h" = "temp.9h.exp",
-                "Exposure Air Temperature at 12h" = "temp.12h.exp",
-                "Exposure Air Temperature at 15h" = "temp.15h.exp",
-                "Precipitation" = "precipitacao",
-                "Atmospheric Pressure 9h" = "pressao9h",
-                "Atmospheric Pressure 12h" = "pressao12h",
-                "Atmospheric Pressure 15h" = "pressao15h",
-                "Average Atmospheric Pressure" = "pressao.media",
-                "Vapor Pressure 9h" = "tensao9h",
-                "Vapor Pressure 12h" = "tensao12h",
-                "Vapor Pressure 15h" = "tensao15h",
-                "Humidity 9h" = "humidade9h",
-                "Humidity 12h" = "humidade12h",
-                "Humidity 15h" = "humidade15h",
-                "Ozone" = "ozono",
-                "Absolute wind speed" = "velocidade.absoluta",
-                "Wind speed 15h" = "velocidade.horaria" )
+                 "Maximum Air Temperature" = "temp.maxima",
+                 "Average Air Temperature" = "temp.media",
+                 "Shade Air Temperature at 9h" = "temp.9h.som",
+                 "Shade Air Temperature at 12h" = "temp.12h.som",
+                 "Shade Air Temperature at 15h" = "temp.15h.som",
+                 "Exposure Air Temperature at 9h" = "temp.9h.exp",
+                 "Exposure Air Temperature at 12h" = "temp.12h.exp",
+                 "Exposure Air Temperature at 15h" = "temp.15h.exp",
+                 "Precipitation" = "precipitacao",
+                 "Atmospheric Pressure 9h" = "pressao9h",
+                 "Atmospheric Pressure 12h" = "pressao12h",
+                 "Atmospheric Pressure 15h" = "pressao15h",
+                 "Average Atmospheric Pressure" = "pressao.media",
+                 "Vapor Pressure 9h" = "tensao9h",
+                 "Vapor Pressure 12h" = "tensao12h",
+                 "Vapor Pressure 15h" = "tensao15h",
+                 "Humidity 9h" = "humidade9h",
+                 "Humidity 12h" = "humidade12h",
+                 "Humidity 15h" = "humidade15h",
+                 "Ozone" = "ozono",
+                 "Absolute wind speed" = "velocidade.absoluta",
+                 "Wind speed 15h" = "velocidade.horaria" )
 
 parChoices <- c("Minimum Air Temperature" = "Minimum.Air.Temperature",
-                 "Maximum Air Temperature" = "Maximum.Air.Temperature",
-                 "Average Air Temperature" = "Average.Air.Temperature",
-                 "Shade Air Temperature at 9h" = "Temperature.Shade.9h",
-                 "Shade Air Temperature at 12h" = "Temperature.Shade.12h",
-                 "Shade Air Temperature at 15h" = "Temperature.Shade.15h",
-                 "Exposure Air Temperature at 9h" = "Temperature.Exposure.9h",
-                 "Exposure Air Temperature at 12h" = "Temperature.Exposure.12h",
-                 "Exposure Air Temperature at 15h" = "Temperature.Exposure.15h",
-                 "Precipitation" = "Precipitation",
-                 "Atmospheric Pressure 9h" = "AtmosphericPressure.9h",
-                 "Atmospheric Pressure 12h" = "AtmosphericPressure.12h",
-                 "Atmospheric Pressure 15h" = "AtmosphericPressure.15h",
-                 "Average Atmospheric Pressure" = "AtmosphericPressure.Average",
-                 "Vapor Pressure 9h" = "VaporPressure.9h",
-                 "Vapor Pressure 12h" = "VaporPressure.12h",
-                 "Vapor Pressure 15h" = "VaporPressure.15h",
-                 "Humidity 9h" = "Humidity.9h",
-                 "Humidity 12h" = "Humidity.12h",
-                 "Humidity 15h" = "Humidity.15h",
-                 "Ozone" = "Ozone",
-                 "Absolute wind speed" = "Wind.Speed.Absolute",
-                 "Wind speed 15h" = "Wind.Speed.Hourly" )
+                "Maximum Air Temperature" = "Maximum.Air.Temperature",
+                "Average Air Temperature" = "Average.Air.Temperature",
+                "Shade Air Temperature at 9h" = "Temperature.Shade.9h",
+                "Shade Air Temperature at 12h" = "Temperature.Shade.12h",
+                "Shade Air Temperature at 15h" = "Temperature.Shade.15h",
+                "Exposure Air Temperature at 9h" = "Temperature.Exposure.9h",
+                "Exposure Air Temperature at 12h" = "Temperature.Exposure.12h",
+                "Exposure Air Temperature at 15h" = "Temperature.Exposure.15h",
+                "Precipitation" = "Precipitation",
+                "Atmospheric Pressure 9h" = "AtmosphericPressure.9h",
+                "Atmospheric Pressure 12h" = "AtmosphericPressure.12h",
+                "Atmospheric Pressure 15h" = "AtmosphericPressure.15h",
+                "Average Atmospheric Pressure" = "AtmosphericPressure.Average",
+                "Vapor Pressure 9h" = "VaporPressure.9h",
+                "Vapor Pressure 12h" = "VaporPressure.12h",
+                "Vapor Pressure 15h" = "VaporPressure.15h",
+                "Humidity 9h" = "Humidity.9h",
+                "Humidity 12h" = "Humidity.12h",
+                "Humidity 15h" = "Humidity.15h",
+                "Ozone" = "Ozone",
+                "Absolute wind speed" = "Wind.Speed.Absolute",
+                "Wind speed 15h" = "Wind.Speed.Hourly" )
 
 xLabs <-c("Minimum air temperature (\u00B0C)" = "tmin",
           "Maximum air temperature (\u00B0C)" = "tmax",
@@ -132,7 +123,7 @@ xLabs <-c("Minimum air temperature (\u00B0C)" = "tmin",
           "Wind speed 15h (km)" = "hourlyWindSpeed")
 
 origem <- "1860-12-01"
-fim <- "1898-03-31"
+fim <- "1898-03-30"
 minimo <- "1860-12-01"
 min.wind <- "1865-01-01"
 maximo <- "1898-03-31"
